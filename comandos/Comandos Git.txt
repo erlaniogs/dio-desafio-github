@@ -1,0 +1,244 @@
+Algumas configurações necessárias, quando se usa pela primeira vez o Git/GitHub
+
+	$ git config --local (para cada projeto)
+			ou
+	$ git config --global (para a máquina como um todo)
+
+Exemplo de configuração:
+	$ git config --local user.name "Nome do Autor" 			- configura o nome do autor do commit, mas somente para um projeto (--local)
+
+se eu executar o comando:
+	$ git config user.name 		- verei o nome definido nas configurações
+	$ git config user.email		- verei o e-mail definido nas configurações
+
+---------------
+
+- Criando/Indicando um repositório para começar a ser versionado 
+	- $ git init
+	- $ git init --bare  - indica um repositório que contém somente as alterações dos arquivos, possibilitando adicionar esse repositório como remoto
+	
+	ls			- lista o conteúdo da pasta
+	
+	ls -lha 	- lista o conteúdo da pasta, com detalhes
+	 
+---------------
+
+- Verificando situação dos arquivos 
+	- $ git status                          - mostra o status atual da pasta
+	- $ git status -s 
+		    ou 
+		git status --short 					- mostra o status atual de uma forma mais resumida
+
+---------------
+
+- Adicionando arquivos para acompanhar as mudanças 
+	- $ git add "nome_do_arquivo"           - adiciona um arquivo específico (substitua "nome_do_arquivo", pelo arquivo desejado)
+	- $ git add .                           - adiciona todos os arquivos/subdiretórios, do diretório atual, de uma vez
+	
+	Digamos que temos um subdiretório 'teste', dentro do diretório atual. Se quisermos adicionar, somente os arquivos de 'teste', digitaríamos:
+	
+	- $ git add teste .
+
+Caso haja alterações nos arquivos trabalhados (necessário adicionar, novamente, o(s) arquivo(s) alterado(s)). Por exemplo:
+	- $ git add "nome_do_arquivo"
+
+---------------
+
+- Gravando arquivos no repositório 
+	- $ git commit -m "MENSAGEM QUE QUERO INFORMAR A RESPEITO DAS MUDANÇAS"
+
+Adicionando (rastreamento) e comitando (simultaneamente):
+	- $	git	commit	-a	-m	"Texto Descritivo das Alterações" 
+			ou
+	- $	git	commit	-am	"Texto Descritivo das Alterações"
+
+---------------
+
+- Verificando alterações realizadas (histórico)
+	- $ git log
+	- $ git log -n 2                        - mostrará somente as 2 últimas alterações
+	- $ git log --oneline                   - mostra somente um resumo com o texto descritivo
+	- $ git log -p							- mostra o arquivo e as modificações ocorridas
+	- $ git log --stat                      - mostra os arquivos alterados, quantas linhas etc
+	- $ git log --graph						- mostra as possíveis branches (percurso) dos logs
+	
+Vale ressaltar que se pode combinar vários comandos:
+	- $ git log -n 2 --oneline --stat
+
+	- $ git log --pretty="parametros de formatação" - permite visualizar de forma personalizada (vide url https://devhints.io/git-log)
+	
+	- $ git log --help 								- mostra algumas possibilidades de utilização do comando 'git log'	
+
+---------------
+
+Se eu digitar:
+	- $ git remote  - ele vai listar todos os repositórios remotos que o meu repositório local conhece
+
+	- $ git remote add local "caminho"     	- vai adicionar um repositório remoto, onde posso indicar uma pasta local, um endereço na rede, uma URL...
+											  e apontando 'local' para esse "caminho"
+	
+	- $ git remote -v  						- vai mostrar o endereço do local, onde está indicado como 'fetch' é de onde ele vai buscar e o 
+											  'push' para onde vai ser enviado
+	
+- Apontando (de dentro do repositorio local) o projeto para o GitHub 
+	- $	git remote add origin https://github.com/fulanodasilva/_nome_da_pasta_.git - onde 'fulanodasilva' será o usuário e '_nome_da_pasta_.git',
+																					 o repositório criado no GitHub e apontando 'origin' para ele
+---------------
+
+- Enviando alterações para o GitHub ou até mesmo para um servidor local
+	- $	git push origin master
+	
+	- $ git push local master
+
+- Trazendo os arquivos para o repositório local de um repositório remoto
+			
+		Acontece que o repositório 'local' ficou definido como 'origin'. Para 
+		renomear, executo: 
+		
+			- $ git remote rename origin local
+			
+		Depois de renomeado, executo o comando:
+		
+			- $ git pull local master
+		
+
+---------------
+
+Verificando alterações realizadas no projeto (específico):
+----------------------------------------------------------
+	https://github.com/fulanodasilva/jogos-python/commits/master
+
+
+- Clonando/copiando de um repositório no GitHub 
+	- $ git clone https://github.com/fulanodasilva/jogos-python.git
+	
+	- $ git clone '/c/Users/Administrator/Projetos Git/servidor/' projeto   - trazendo todos os dados de um repositório remoto para um 
+	                                                                          repositorio local, cujo nome será 'projeto'
+
+	
+- Verificando mudanças não rastreadas 
+	- $ git diff	
+	- $ git diff "arquivo_especifico" (quando se quer verificar somente um arquivo)
+
+- Caso não deseje versionar/rastrear algum(ns) arquivo(s), basta criar um arquivo '.gitignore' (dentro do diretório principal do projeto) e 
+  informar quais não deve ser rastreados
+	
+	veja link: https://git-scm.com/book/pt-br/v2/Fundamentos-de-Git-Gravando-Altera%C3%A7%C3%B5es-em-Seu-Reposit%C3%B3rio, 
+	na parte 'Ignorando Arquivos'
+	
+	- Outro link, sobre extensões no .gitignore: https://github.com/github/gitignore
+	
+-----------------------------
+
+Branches
+---------
+Permite que se trabalhe com uma parte do código, como se fosse uma ramificação
+
+	- $ git branch 									- mostra as possíveis branches no diretório. Possivelmente, só a master
+
+Se eu quiser trabalhar numa parte do código, como 'titulo', eu posso criar uma branch, por exemplo:
+	
+	- $ git branch titulo
+
+Para se mudar de 'ramo', basta digitar:
+		
+		- $ git checkout titulo
+		
+Para criar um branch e já acessá-lo:
+		- $ git checkout -b lista
+		
+Como enviar as alterações realizadas numa 'branch' para a 'master':
+	
+	- $ git merge titulo 						- no nosso caso, trouxe da branch 'titulo'
+	
+	- apresentará uma mensagem aberta no 'vim' (no meu caso, abriu o VS Code)
+	- pressiono :x e teclo Enter
+
+	PS.: Não apresentará as 2 alterações feitas na branch titulo. Somente
+	o commit de 'merge'
+	
+Como atualizar a branch master sem criar o commit de merge:
+
+		- $ git rebase titulo       			- neste caso, vai pegar as alteraçoes da branch 'titulo'
+		
+---------------------
+Desfazendo algumas alterações (sem adicionar/commitar)
+
+	- $ git checkout -- "nome_do_arquivo"		- desfaz a alteração no arquivo
+		
+	Percebi, pelo 'Git Bash' mais atualizado que ele orienta utilizar o comando:
+		
+		- $ git restore "nome_do_arquivo"
+		
+Desfazendo alterações após adicionar para commitar:
+
+	- $ git reset HEAD "nome_do_arquivo"
+	
+	Percebi, pelo 'Git Bash' mais atualizado que ele orienta utilizar o comando:
+		
+		- $ git restore --staged "nome_do_arquivo"
+		
+			O comando acima pode ser COMPLEMENTADO, caso queira desfazer total:
+			
+			- $ git restore "nome_do_arquivo"
+			
+Desfazendo alterações após commitar. Preciso pegar o 'hash' através do 'git log'
+
+	- $ git revert 3ac7c94157191210ea1d2ceb2218bff26e47c1a9
+	
+---------------------
+
+Guardando (temporariament) uma parte de alteração para depois, sem commitar e sem precisar desfazer, pois chegou uma nova tarefa:
+	
+	- $ git stash
+	
+	Listando a relação de salvamentos e verificando o identificador que foi salvo:
+	
+	- $ git stash list
+	
+	Pegando os dados que se encontram na 'stash' de 2 formas:
+	
+	- git stash apply 0						- esse zero é o número da stash, quando você informa o comando 'git stash list'
+	
+	e depois, tenho que aplicar o 'git stash drop', pois ficarão armazenados na lista. Já para pegar a última informação que tem na 'stash' e já
+	apagar, utilizo o comando:
+	
+	- $ git stash pop
+	
+---------------------
+
+Buscando alterações de um commit antigo. Para isso, identifico o 'hash' de 7 caracteres(letras e números)
+
+'git checkout', muda o estado da aplicação, navegando entre branch  e commits
+
+- $  git checkout "codigos_hash_desejado"
+
+----------------------
+
+Comparando a diferença entre os commits
+
+- $ git diff _hash_.._hash2_
+
+-----------------------
+
+Gerando uma versão (tags/releases) ou marcando um ponto no desenvolvimento da aplicação (não pode ser modificado)
+
+	- $ git tag -a v0.1.0 -m "Lançando a primeira versão da aplicação cursos"
+
+	- $ git tag 								- mostrará todas as tags/releases da aplicação
+	
+	- $ git push local v0.1.0
+	
+	- $ git push origin master					- atualizando a versão no GitHub
+	
+	- $ git push origin v0.1.0					- enviando a tag/release, no caso, para o GitHub
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
